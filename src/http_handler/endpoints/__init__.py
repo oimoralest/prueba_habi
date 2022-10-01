@@ -1,2 +1,7 @@
-from .casas import CasasEndpoint, CasasEnVentaEndpoint, CasasPreventaEndpoint
+from .casas import (
+    CasasEndpoint,
+    CasasEnVentaEndpoint,
+    CasasPreventaEndpoint,
+    CasasVendidasEndpoint,
+)
 from .favicon import FaviconEndpoint
