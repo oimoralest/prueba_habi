@@ -75,3 +75,14 @@ class CasasPreventaEndpoint(CasasEndpoint):
         query: str = self.select_query(base_filter, params)
 
         self.get_casas(query)
+
+
+class CasasEnVentaEndpoint(CasasEndpoint):
+    """Class to handle /casas/enventa endpoint"""
+
+    def get(self, params: Union[dict, None] = None) -> None:
+        base_filter: str = " WHERE s.name = 'en_venta' "
+
+        query: str = self.select_query(base_filter, params)
+
+        self.get_casas(query)

@@ -132,7 +132,7 @@ class CasasEndpointTestCase(unittest.TestCase):
     def test_casas_enventa_status_code_200(self):
         """
         Test:
-            * /casas/preventa endpoint
+            * /casas/enenta endpoint
 
         Expected results:
             * response status code equals to 200
