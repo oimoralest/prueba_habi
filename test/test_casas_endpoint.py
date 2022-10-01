@@ -51,5 +51,29 @@ class CasasEndpointTestCase(unittest.TestCase):
             self.assertEqual(
                 casa["status"],
                 "pre_venta",
-                f"Expected status code 200 but got {response.status_code}",
+                f"Expected status 'pre_venta' but got {casa['status']}",
+            )
+
+    def test_casas_preventa_content_response_city_and_addres_not_null(self):
+        """
+        Test:
+            * /casas/preventa endpoint
+
+        Expected results:
+            * content response only contents casas with non empty address and
+            city
+        """
+        response = requests.get(url=f"http://{HOST}:{PORT}/casas/preventa")
+
+        data = response.json()
+        for casa in data:
+            self.assertNotIn(
+                casa["address"],
+                ("", None),
+                "Expected address not empty but it's empty",
+            )
+            self.assertNotIn(
+                casa["city"],
+                ("", None),
+                "Expected city not empty but it's empty",
             )
