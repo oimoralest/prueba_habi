@@ -98,3 +98,31 @@ class CasasEndpointTestCase(unittest.TestCase):
                 year,
                 f"Expected year {year} but got {casa['year']}",
             )
+
+    def test_casas_preventa_year_and_city_filter(self):
+        """
+        Test:
+            * /casas/preventa endpoint
+
+        Expected results:
+            * content response only contents with filter by year condition
+        """
+        year = 2002
+        city = "medellin"
+        response = requests.get(
+            url=f"http://{HOST}:{PORT}/casas/preventa",
+            params={"year": year, "city": city},
+        )
+
+        data = response.json()
+        for casa in data:
+            self.assertEqual(
+                casa["year"],
+                year,
+                f"Expected year {year} but got {casa['year']}",
+            )
+            self.assertEqual(
+                casa["city"],
+                city,
+                f"Expected year {city} but got {casa['city']}",
+            )

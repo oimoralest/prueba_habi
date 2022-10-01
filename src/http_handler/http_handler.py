@@ -1,6 +1,7 @@
 """Defines the http handler for REST API"""
 import http.server
-from urllib.parse import urlparse
+from typing import Union
+from urllib.parse import ParseResult, urlparse
 
 from .enums import EndpointsMap
 
@@ -11,8 +12,8 @@ class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self) -> None:
         """Handles GET requests"""
         try:
-            parse = urlparse(self.path)
-            params = {}
+            parse: ParseResult = urlparse(self.path)
+            params: Union[dict, None] = None
 
             if parse.query != "":
                 params = dict(

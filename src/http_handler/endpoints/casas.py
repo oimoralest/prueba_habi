@@ -14,7 +14,7 @@ class CasasEndpoint(EndpointBase):
 
     @staticmethod
     def select_query(
-        base_filter: str, params: Union[dict, None] = None
+        base_filter: str = "", params: Union[dict, None] = None
     ) -> None:
         """Build the select query
 
@@ -54,7 +54,7 @@ class CasasEndpoint(EndpointBase):
         return False
 
     def get(self, params: Union[dict, None] = None) -> None:
-        raise NotImplementedError
+        self.get_casas(self.select_query(params=params))
 
     def patch(self) -> None:
         raise NotImplementedError
