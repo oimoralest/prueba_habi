@@ -13,38 +13,21 @@ class CasasEndpoint(EndpointBase):
     """Class to handle /casas endpoint"""
 
     @staticmethod
-    def select_query(filter: str) -> None:
-        """Setter for query attribute
+    def select_query(
+        base_filter: str, params: Union[dict, None] = None
+    ) -> None:
+        """Build the select query
 
         :param filter: Query filter condition
         """
-        return GetCasas.QUERY + filter + " ORDER BY p.id "
+        if params:
+            base_filter += "AND " + " AND ".join(
+                f"{key} = '{value}'" for key, value in params.items()
+            )
+        return GetCasas.QUERY + base_filter + " ORDER BY p.id "
 
-    def append_casa(self, casa: CasaDatabaseRecord) -> bool:
-        """Determines if returns a casa as a response"""
-        if casa.address not in ("", None) and casa.city not in ("", None):
-            return True
-        return False
-
-    def get(self) -> None:
-        raise NotImplementedError
-
-    def patch(self) -> None:
-        raise NotImplementedError
-
-    def post(self) -> None:
-        raise NotImplementedError
-
-    def delete(self) -> None:
-        raise NotImplementedError
-
-
-class CasasPreventaEndpoint(CasasEndpoint):
-    """Class to handle /casas/preventa endpoint"""
-
-    def get(self) -> None:
-        query: str = self.select_query(" WHERE s.name = 'pre_venta' ")
-
+    def get_casas(self, query: str) -> None:
+        """Returns all the casas for a given query"""
         rows: Union[list(tuple), None] = self._db.execute_n_fetchall(query)
         if rows:
             casas: list = []
@@ -62,3 +45,33 @@ class CasasPreventaEndpoint(CasasEndpoint):
             self._response = 200
         else:
             self._response = 204
+
+    @staticmethod
+    def append_casa(casa: CasaDatabaseRecord) -> bool:
+        """Determines if returns a casa as a response"""
+        if casa.address not in ("", None) and casa.city not in ("", None):
+            return True
+        return False
+
+    def get(self, params: Union[dict, None] = None) -> None:
+        raise NotImplementedError
+
+    def patch(self) -> None:
+        raise NotImplementedError
+
+    def post(self) -> None:
+        raise NotImplementedError
+
+    def delete(self) -> None:
+        raise NotImplementedError
+
+
+class CasasPreventaEndpoint(CasasEndpoint):
+    """Class to handle /casas/preventa endpoint"""
+
+    def get(self, params: Union[dict, None] = None) -> None:
+        base_filter: str = " WHERE s.name = 'pre_venta' "
+
+        query: str = self.select_query(base_filter, params)
+
+        self.get_casas(query)

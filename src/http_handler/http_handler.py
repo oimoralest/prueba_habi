@@ -1,5 +1,6 @@
 """Defines the http handler for REST API"""
 import http.server
+from urllib.parse import urlparse
 
 from .enums import EndpointsMap
 
@@ -10,8 +11,16 @@ class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self) -> None:
         """Handles GET requests"""
         try:
-            endpoint = EndpointsMap.GET[self.path](self.DB)
-            endpoint.get()
+            parse = urlparse(self.path)
+            params = {}
+
+            if parse.query != "":
+                params = dict(
+                    query.split("=") for query in parse.query.split("&")
+                )
+
+            endpoint = EndpointsMap.GET[parse.path](self.DB)
+            endpoint.get(params)
         except KeyError:
             # TODO: log endpoint not found and content for page not found
             # Handle other possibles status response code

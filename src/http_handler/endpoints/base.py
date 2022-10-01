@@ -1,6 +1,7 @@
 """Defines the base class used by all the endpoints"""
 
 from abc import ABC, abstractmethod
+from typing import Union
 
 from src.db import DB
 
@@ -19,7 +20,7 @@ class EndpointBase(ABC):
         return {key: value for key, value in zip(keys, values)}
 
     @abstractmethod
-    def get(self) -> None:
+    def get(self, params: Union[dict, None] = None) -> None:
         """Handles get request"""
         pass
 
