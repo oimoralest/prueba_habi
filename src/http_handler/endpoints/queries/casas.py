@@ -1,6 +1,6 @@
 class GetCasas:
     QUERY = """
-        SELECT p.*, sh.*, s.*
+        SELECT p.address, p.city, p.year, s.name, p.price, p.description
         FROM (
                 SELECT
                     property_id,

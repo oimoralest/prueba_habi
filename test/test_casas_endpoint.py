@@ -34,3 +34,22 @@ class CasasEndpointTestCase(unittest.TestCase):
             200,
             f"Expected status code 200 but got {response.status_code}",
         )
+
+    def test_casas_preventa_content_response(self):
+        """
+        Test:
+            * /casas/preventa endpoint
+
+        Expected results:
+            * content response only contents casas with status equal to
+            pre_venta
+        """
+        response = requests.get(url=f"http://{HOST}:{PORT}/casas/preventa")
+
+        data = response.json()
+        for casa in data:
+            self.assertEqual(
+                casa["status"],
+                "pre_venta",
+                f"Expected status code 200 but got {response.status_code}",
+            )

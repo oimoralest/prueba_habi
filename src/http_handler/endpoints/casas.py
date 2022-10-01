@@ -3,6 +3,8 @@
 import json
 from typing import Union
 
+from src.db.models import CasaDatabaseRecord
+
 from .base import EndpointBase
 from .queries.casas import GetCasas
 
@@ -17,6 +19,12 @@ class CasasEndpoint(EndpointBase):
         :param filter: Query filter condition
         """
         return GetCasas.QUERY + filter + " ORDER BY p.id "
+
+    def append_casa(self, casa: CasaDatabaseRecord) -> bool:
+        """Determines if returns a casa as a response"""
+        if casa.address not in ("", None) and casa.city not in ("", None):
+            return True
+        return False
 
     def get(self) -> None:
         raise NotImplementedError
@@ -35,17 +43,21 @@ class CasasPreventaEndpoint(CasasEndpoint):
     """Class to handle /casas/preventa endpoint"""
 
     def get(self) -> None:
-        # TODO: Querying data
-        query = self.select_query(" WHERE s.name = 'pre_venta' ")
+        query: str = self.select_query(" WHERE s.name = 'pre_venta' ")
 
         rows: Union[list(tuple), None] = self._db.execute_n_fetchall(query)
         if rows:
+            casas: list = []
             for row in rows:
-                print(row)
+                casa: dict = self.to_dict(
+                    CasaDatabaseRecord.__annotations__.keys(), row
+                )
+                if self.append_casa(CasaDatabaseRecord(**casa)):
+                    casas.append(casa)
 
             self._headers = {"Content-Type": "application/json"}
 
-            self._json = json.dumps({"Hello": "World"})
+            self._json = json.dumps(casas)
 
             self._response = 200
         else:

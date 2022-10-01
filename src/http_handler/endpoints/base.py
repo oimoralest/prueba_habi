@@ -13,6 +13,11 @@ class EndpointBase(ABC):
 
         self._db: DB = db
 
+    @staticmethod
+    def to_dict(keys, values) -> dict:
+        """Creates a dictionary for the given keys and values"""
+        return {key: value for key, value in zip(keys, values)}
+
     @abstractmethod
     def get(self) -> None:
         """Handles get request"""
