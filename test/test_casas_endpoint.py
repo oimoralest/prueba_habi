@@ -77,3 +77,24 @@ class CasasEndpointTestCase(unittest.TestCase):
                 ("", None),
                 "Expected city not empty but it's empty",
             )
+
+    def test_casas_preventa_year_filter(self):
+        """
+        Test:
+            * /casas/preventa endpoint
+
+        Expected results:
+            * content response only contents with filter by year condition
+        """
+        year = 2020
+        response = requests.get(
+            url=f"http://{HOST}:{PORT}/casas/preventa", params={"year": year}
+        )
+
+        data = response.json()
+        for casa in data:
+            self.assertEqual(
+                casa["year"],
+                year,
+                f"Expected year {year} but got {casa['year']}",
+            )
