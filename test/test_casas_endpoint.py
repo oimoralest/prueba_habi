@@ -8,6 +8,8 @@ from enums import HOST, PORT
 
 
 class CasasEndpointTestCase(unittest.TestCase):
+    """All tests related to /casas/*"""
+
     @classmethod
     def setUpClass(cls) -> None:
         cls.server = subprocess.Popen(["python3", "main.py"])
@@ -126,3 +128,19 @@ class CasasEndpointTestCase(unittest.TestCase):
                 city,
                 f"Expected year {city} but got {casa['city']}",
             )
+
+    def test_casas_enventa_status_code_200(self):
+        """
+        Test:
+            * /casas/preventa endpoint
+
+        Expected results:
+            * response status code equals to 200
+        """
+        response = requests.get(url=f"http://{HOST}:{PORT}/casas/enventa")
+
+        self.assertEqual(
+            response.status_code,
+            200,
+            f"Expected status code 200 but got {response.status_code}",
+        )

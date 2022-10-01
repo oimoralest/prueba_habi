@@ -25,8 +25,7 @@ class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         except KeyError:
             # TODO: log endpoint not found and content for page not found
             # Handle other possibles status response code
-            self.send_header("Content-length", 0)
-            self.send_response(404)
+            self.send_error(404, "Page not found")
         else:
             # Response code
             self.send_response(endpoint._response)
