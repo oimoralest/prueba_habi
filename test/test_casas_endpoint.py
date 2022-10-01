@@ -13,7 +13,7 @@ class CasasEndpointTestCase(unittest.TestCase):
         cls.server = subprocess.Popen(["python3", "main.py"])
 
         # Needed so server can open the port for requests
-        sleep(1)
+        sleep(3)
 
     @classmethod
     def tearDownClass(cls) -> None:
@@ -27,7 +27,7 @@ class CasasEndpointTestCase(unittest.TestCase):
         Expected results:
             * response status code equals to 200
         """
-        response = requests.get(f"http://{HOST}:{PORT}/casas/preventa")
+        response = requests.get(url=f"http://{HOST}:{PORT}/casas/preventa")
 
         self.assertEqual(
             response.status_code,

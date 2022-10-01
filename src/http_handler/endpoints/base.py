@@ -2,6 +2,8 @@
 
 from abc import ABC, abstractmethod
 
+from src.db import DB
+
 
 class EndpointBase(ABC):
     def __init__(self, db) -> None:
@@ -9,24 +11,24 @@ class EndpointBase(ABC):
         self._headers: dict = {}
         self._json: str = ""
 
-        self._db = db
+        self._db: DB = db
 
     @abstractmethod
-    def get(self):
+    def get(self) -> None:
         """Handles get request"""
         pass
 
     @abstractmethod
-    def post(self):
+    def post(self) -> None:
         """Handles post request"""
         pass
 
     @abstractmethod
-    def patch(self):
+    def patch(self) -> None:
         """Handles patch request"""
         pass
 
     @abstractmethod
-    def delete(self):
+    def delete(self) -> None:
         """Handles delete request"""
         pass
