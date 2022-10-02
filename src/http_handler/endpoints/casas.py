@@ -21,7 +21,11 @@ class CasasEndpoint(EndpointBase):
         :param filter: Query filter condition
         """
         if params:
-            base_filter += "AND " + " AND ".join(
+            if base_filter == "":
+                base_filter = "WHERE "
+            else:
+                base_filter += "AND "
+            base_filter += " AND ".join(
                 f"{key} = '{value}'" for key, value in params.items()
             )
         return GetCasas.QUERY + base_filter + " ORDER BY p.id "

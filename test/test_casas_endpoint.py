@@ -15,7 +15,7 @@ class CasasEndpointTestCase(unittest.TestCase):
         cls.server = subprocess.Popen(["python3", "main.py"])
 
         # Needed so server can open the port for requests
-        sleep(3)
+        sleep(5)
 
     @classmethod
     def tearDownClass(cls) -> None:

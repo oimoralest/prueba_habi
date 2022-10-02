@@ -1,0 +1,20 @@
+{
+    "ejemplos": [
+        {
+            "path": "/casas",
+            "params": "?year=2011&city=medellin"
+        },
+        {
+            "path": "/casas/preventa",
+            "params": "?year=2011&city=medellin"
+        },
+        {
+            "path": "/casas/enventa",
+            "params": "?year=2011&city=medellin"
+        },
+        {
+            "path": "/casas/vendido",
+            "params": "?year=2011&city=medellin"
+        }
+    ]
+}

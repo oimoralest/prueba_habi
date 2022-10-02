@@ -22,9 +22,8 @@ class DB:
             )
 
             return DBReturnCodes.SUCCESS
-        except connection.Error as err:
+        except connection.Error:
             # TODO: log error
-            print(err)
             return DBReturnCodes.ERROR
 
     def close(self) -> None:

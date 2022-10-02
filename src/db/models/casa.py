@@ -6,6 +6,7 @@ from .base import DatabaseRecord
 
 @dataclass
 class CasaDatabaseRecord(DatabaseRecord):
+    property_id: int
     address: str
     city: str
     year: int
