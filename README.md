@@ -18,7 +18,41 @@ Para implementar el microservicio de me gustas, se propone expandir los modelos 
 
 ![modelos likes](./img/modelo_likes.png "modelo likes")
 
-Codigo SQL para extender los modelos de la base de datos
+El modelo propone una tabla intermedia, ya que la relacion se puede ver sencillamente como: Un usario puede darle me gusta a muchas propiedades, una propiedad puede tener me gustas de muchos usuarios.
+
+Tambien se agrega el campo likes en la tabla property, pues asi puedo incrementar el valor de este cada ves que se realice una peticion POST. ej:
+
+```Python
+# Supongamos que este metodo maneja las peticiones post para insertar un like
+def post(property_id, user_id):
+  """Handles post for /likes
+  e.g.: /likes?property_id=1&user_id=1
+  """
+  # Insert new like
+  cursor.execute(
+    f"""
+      INSERT INTO likes
+      (property_id, user_id)
+      VALUES
+      ({property_id}, {user_id})
+    """
+  )
+
+  # Increments likes for the given property_id
+  cursor.execute(
+    f"""
+      UPDATE property
+      SET likes = likes + 1
+      WHERE property_id = {property_id}
+    """
+  )
+
+  cursor.commit()
+```
+
+De esta manera podemos traer los likes de una propiedad con la demas informacion
+
+### Codigo SQL para extender los modelos de la base de datos
 ```SQL
 -- -----------------------------------------------------
 -- Table `habi_db`.`property`
